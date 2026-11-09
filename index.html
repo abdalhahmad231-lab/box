@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>راديو وكبسولة أحلامنا</title>
+<meta name="description" content="راديو وكبسولة أحلامنا 💖">
+<meta name="theme-color" content="#f1e6ff">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="أحلامنا">
+<meta name="format-detection" content="telephone=no">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' fill='%23ff8fb7'/%3E%3Ctext x='90' y='125' font-size='100' text-anchor='middle'%3E💖%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E💖%3C/text%3E%3C/svg%3E">
+<style>
+:root{
+  --p1:#f6edff;--p2:#f0defc;--p3:#e3c4fa;--p4:#b77cf0;--p5:#a23d9a;--ink:#4a1f55;--card:rgba(255,255,255,.72);
+  --sat:env(safe-area-inset-top,0px);--sab:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:"Segoe UI",Tahoma,"Noto Naskh Arabic",Arial,sans-serif;color:var(--ink);
+  background:linear-gradient(160deg,#f1e6ff,#ffd9ea 42%,#ffe3d3 75%,#eadcff);background-size:200% 200%;
+  animation:bg 14s ease infinite;overflow:hidden;user-select:none;-webkit-user-select:none}
+@keyframes bg{50%{background-position:100% 100%}}
+#hearts{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.fh{position:absolute;bottom:-40px;opacity:.5;animation:rise linear forwards}
+@keyframes rise{to{transform:translateY(-110vh) rotate(30deg);opacity:0}}
+.app{position:relative;z-index:1;height:100%;max-width:520px;margin:auto;display:flex;flex-direction:column}
+header{padding:calc(var(--sat) + 14px) 18px 6px;text-align:center}
+header h1{font-size:22px;color:var(--p5);text-shadow:0 2px 10px #fff}
+header p{font-size:12.5px;opacity:.75;margin-top:2px}
+main{flex:1;overflow-y:auto;padding:8px 16px 16px;-webkit-overflow-scrolling:touch}
+.tab{display:none;animation:in .4s ease}.tab.on{display:block}
+@keyframes in{from{opacity:0;transform:translateY(12px)}}
+.card{background:var(--card);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.8);
+  border-radius:26px;padding:16px;box-shadow:0 10px 30px rgba(194,65,143,.18);margin-bottom:14px}
+nav{display:flex;gap:8px;padding:8px 14px calc(var(--sab) + 10px);background:rgba(255,255,255,.65);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-top:1px solid rgba(255,255,255,.9);border-radius:26px 26px 0 0}
+nav button{flex:1;border:0;background:none;padding:8px 4px;border-radius:18px;font:inherit;font-size:13px;color:var(--ink);opacity:.65;transition:.25s}
+nav button span{display:block;font-size:22px}
+nav button.on{opacity:1;background:linear-gradient(135deg,var(--p2),var(--p3));font-weight:700;box-shadow:0 4px 14px rgba(255,143,183,.5)}
+/* radio */
+.radio{background:linear-gradient(160deg,#f6dcff,#ffc1dc);border-radius:30px;padding:16px;border:3px solid #fff;box-shadow:0 14px 34px rgba(194,65,143,.3),inset 0 -6px 14px rgba(194,65,143,.15)}
+.ant{height:34px;width:3px;background:#c2418f;margin:-34px 40px 14px auto;transform:rotate(18deg);border-radius:3px;position:relative;top:-4px}
+.ant:after{content:"";position:absolute;top:-6px;left:-4px;width:11px;height:11px;border-radius:50%;background:#c2418f}
+.screen{background:linear-gradient(180deg,#2a1244,#5a2470);border-radius:18px;padding:12px;border:3px solid #fff;box-shadow:inset 0 0 22px #000a;color:#ffd6e7;direction:ltr}
+.freq{display:flex;justify-content:space-between;font:700 13px "Courier New",monospace;color:#ff9ec4;text-shadow:0 0 8px #ff4f93}
+canvas{width:100%;height:70px;display:block;margin:4px 0}
+.msg{direction:rtl;min-height:64px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:16px;line-height:1.7;color:#fff;text-shadow:0 0 10px #ff4f93;transition:opacity .5s}
+.msg.f{opacity:0}
+.knobs{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:14px 4px 6px}
+.pw{width:54px;height:54px;border-radius:50%;border:3px solid #fff;background:radial-gradient(circle at 35% 30%,#ff9ec4,#c2418f);color:#fff;font-size:22px;box-shadow:0 6px 14px rgba(194,65,143,.5);transition:.2s}
+.pw.off{background:radial-gradient(circle at 35% 30%,#ddd,#999);box-shadow:none}
+.pw:active{transform:scale(.92)}
+.lv{flex:1;text-align:center;font-size:12px}
+input[type=range]{width:100%;accent-color:#c2418f;height:30px}
+.st{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px}
+.st button{border:2px solid #fff;border-radius:18px;padding:10px 4px;font:inherit;font-size:12.5px;color:var(--ink);background:rgba(255,255,255,.7);transition:.25s}
+.st button b{display:block;font-size:24px}
+.st button.on{background:linear-gradient(135deg,#ff7eb3,#9b5de5);color:#fff;box-shadow:0 6px 16px rgba(194,65,143,.5);transform:translateY(-3px)}
+.grill{display:flex;gap:5px;justify-content:center;margin-top:12px}.grill i{width:60px;max-width:20%;height:5px;border-radius:5px;background:rgba(194,65,143,.35)}
+/* capsule */
+label{display:block;font-size:13.5px;font-weight:700;margin:10px 2px 6px}
+textarea,input[type=datetime-local],input[type=text]{width:100%;border:2px solid #fff;background:rgba(255,255,255,.85);border-radius:16px;padding:12px;font:inherit;font-size:15px;color:var(--ink);outline:none;user-select:text;-webkit-user-select:text}
+textarea{min-height:96px;resize:none}
+textarea:focus,input:focus{border-color:var(--p4)}
+.btn{width:100%;margin-top:14px;border:0;border-radius:18px;padding:14px;font:inherit;font-size:16px;font-weight:700;color:#fff;background:linear-gradient(135deg,#ff7eb3,#9b5de5);box-shadow:0 8px 20px rgba(194,65,143,.4);transition:.2s}
+.btn:active{transform:scale(.97)}
+.cap h3{font-size:15px;display:flex;justify-content:space-between;align-items:center}
+.cap h3 button{border:0;background:none;font-size:18px;opacity:.6}
+.cd{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:12px 0;direction:ltr}
+.cd div{background:linear-gradient(160deg,#fff,#ffe1ee);border-radius:14px;padding:8px 2px;text-align:center;box-shadow:0 3px 10px rgba(194,65,143,.15)}
+.cd b{display:block;font:800 22px "Courier New",monospace;color:var(--p5)}
+.cd small{font-size:11px;opacity:.7}
+.secret{background:rgba(255,255,255,.8);border-radius:14px;padding:12px;line-height:1.8;font-size:15px;transition:filter .8s;user-select:text;-webkit-user-select:text;word-break:break-word}
+.secret.lock{filter:blur(7px);user-select:none;-webkit-user-select:none;pointer-events:none}
+.tag{display:inline-block;font-size:12px;padding:3px 10px;border-radius:20px;background:var(--p2);margin-top:8px}
+.tag.open{background:#c9f5dc}
+.empty{text-align:center;opacity:.7;padding:26px 10px;line-height:1.9}
+.empty span{font-size:46px;display:block}
+#toast{position:fixed;top:calc(var(--sat) + 14px);left:50%;transform:translate(-50%,-90px);background:#fff;color:var(--p5);padding:12px 20px;border-radius:30px;box-shadow:0 10px 30px rgba(194,65,143,.35);z-index:9;transition:.4s;font-weight:700;font-size:14px;max-width:90%;text-align:center}
+#toast.s{transform:translate(-50%,0)}
+.hint{font-size:12px;opacity:.7;text-align:center;margin-top:8px}
+
+header{position:relative}
+#back{position:absolute;right:14px;top:calc(var(--sat) + 14px);border:0;background:rgba(255,255,255,.8);color:var(--p5);font:inherit;font-size:13px;font-weight:700;padding:7px 14px;border-radius:20px;box-shadow:0 4px 12px rgba(155,93,229,.25);display:none}
+.app:not(.home) #back{display:block}
+.app.home main,.app.home nav{display:none}
+.app:not(.home) #home{display:none}
+#home{flex:1;display:flex;flex-direction:column;justify-content:center;padding:10px 24px calc(var(--sab) + 40px)}
+.wg{aspect-ratio:1/1;border-radius:36px;overflow:hidden;border:2px solid rgba(255,255,255,.9);box-shadow:0 22px 50px rgba(120,60,180,.35)}
+.sl{display:flex;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;direction:ltr;-webkit-overflow-scrolling:touch}
+.sl::-webkit-scrollbar{display:none}
+.sl>div{flex:0 0 100%;scroll-snap-align:center;scroll-snap-stop:always;padding:22px;display:flex;flex-direction:column;justify-content:space-between;direction:rtl;cursor:pointer}
+.s1{background:linear-gradient(150deg,#2a1244,#7a2f8f 58%,#ff7eb3);color:#fff}
+.s2{background:linear-gradient(150deg,#fff1f7,#f0defc 55%,#e3c4fa)}
+.wt{font:700 12px "Courier New",monospace;direction:ltr;display:flex;justify-content:space-between;opacity:.9}
+.wm{font-size:19px;line-height:1.8;text-align:center;transition:opacity .35s;text-shadow:0 0 12px #ff4f93}
+.s1 canvas{height:60px;margin:0}
+.s2 h2{font-size:18px;color:var(--p5)}
+.s2 .cd b{font-size:26px}
+.s2 .cd small{font-size:11px}
+.wn{text-align:center;font-size:14px;opacity:.8}
+.dots{display:flex;gap:8px;justify-content:center;margin-top:18px}
+.dots i{width:9px;height:9px;border-radius:50%;background:rgba(74,31,85,.25);transition:.3s}
+.dots i.on{background:var(--p5);width:24px;border-radius:6px}
+.hintw{text-align:center;font-size:13px;opacity:.7;margin-top:14px;line-height:1.8}
+</style>
+</head>
+<body>
+<div id="hearts"></div>
+<div id="toast"></div>
+<div class="app home">
+  <header><h1>📻 راديو وكبسولة أحلامنا 💌</h1><p>حاجتنا الصغيرة اللي بتجمع كل حاجة حلوة</p><button id="back">› الرئيسية</button></header>
+  <section id="home">
+    <div class="wg"><div class="sl" id="sl">
+      <div class="s1" data-o="t-radio">
+        <div class="wt"><span id="wfq">FM 98.5 · LOVE</span><span>● ON AIR</span></div>
+        <canvas id="wwave" width="400" height="120"></canvas>
+        <div class="wm" id="wmsg">أنت أحلى حاجة حصلتلي 💖</div>
+      </div>
+      <div class="s2" data-o="t-cap">
+        <h2>💌 كبسولة أحلامنا</h2>
+        <div class="cd"><div><b id="wd">00</b><small>يوم</small></div><div><b id="wh">00</b><small>ساعة</small></div><div><b id="wmn">00</b><small>دقيقة</small></div><div><b id="ws">00</b><small>ثانية</small></div></div>
+        <div class="wn" id="wnote">لسه مفيش كبسولات 🫧</div>
+      </div>
+    </div></div>
+    <div class="dots"><i class="on"></i><i></i></div>
+    <p class="hintw">اسحبي يمين وشمال بين الراديو والكبسولة<br>واضغطي على الشاشة عشان تفتحيها 💗</p>
+  </section>
+  <main>
+    <section class="tab on" id="t-radio">
+      <div class="radio">
+        <div class="ant"></div>
+        <div class="screen">
+          <div class="freq"><span id="fq">FM 98.5</span><span id="stn">LOVE</span><span id="onair">● ON AIR</span></div>
+          <canvas id="wave" width="600" height="140"></canvas>
+          <div class="msg" id="msg">اضغط زرار التشغيل 💗</div>
+        </div>
+        <div class="knobs">
+          <button class="pw off" id="pw" aria-label="تشغيل">⏻</button>
+          <div class="lv"><div>مستوى الإحساس 💓</div><input type="range" id="lvl" min="1" max="5" value="3"></div>
+        </div>
+        <div class="st" id="sts">
+          <button data-i="0" class="on"><b>💖</b>كلام حب</button>
+          <button data-i="1"><b>😂</b>مواقف مضحكة</button>
+          <button data-i="2"><b>🌠</b>أحلام المستقبل</button>
+        </div>
+        <div class="grill"><i></i><i></i><i></i><i></i><i></i></div>
+      </div>
+      <p class="hint">الرسائل بتتغير لوحدها كل كام ثانية، ولمس الشاشة بيغيّر الرسالة فوراً ✨</p>
+    </section>
+
+    <section class="tab" id="t-cap">
+      <div class="card">
+        <h3 style="font-size:17px">🔮 اكتب رسالة للمستقبل</h3>
+        <label for="ctitle">عنوان الكبسولة</label>
+        <input type="text" id="ctitle" maxlength="40" placeholder="مثلاً: رسالة لينا بعد سنة 💍">
+        <label for="ctext">رسالتك السرية</label>
+        <textarea id="ctext" maxlength="800" placeholder="اكتب اللي في قلبك... هتفضل مخفية لحد ميعادها 💌"></textarea>
+        <label for="cdate">تتفتح امتى؟</label>
+        <input type="datetime-local" id="cdate">
+        <button class="btn" id="save">🔒 اقفل الكبسولة</button>
+      </div>
+      <div id="list"></div>
+    </section>
+  </main>
+  <nav>
+    <button class="on" data-t="t-radio"><span>📻</span>الراديو</button>
+    <button data-t="t-cap"><span>💌</span>الكبسولة</button>
+  </nav>
+</div>
+
+<script>
+(function(){
+"use strict";
+var $=function(s){return document.querySelector(s)};
+var store={get:function(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},
+  set:function(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+
+/* ---------- PWA manifest + service-less install support ---------- */
+try{
+  var icon="data:image/svg+xml,"+encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' fill='#ff7eb3'/><text x='256' y='350' font-size='290' text-anchor='middle'>💖</text></svg>");
+  var man={name:"راديو وكبسولة أحلامنا",short_name:"أحلامنا",lang:"ar",dir:"rtl",display:"standalone",orientation:"portrait",
+    background_color:"#f1e6ff",theme_color:"#f1e6ff",start_url:".",icons:[{src:icon,sizes:"512x512",type:"image/svg+xml",purpose:"any"}]};
+  var l=document.createElement("link");l.rel="manifest";
+  l.href=URL.createObjectURL(new Blob([JSON.stringify(man)],{type:"application/manifest+json"}));
+  document.head.appendChild(l);
+}catch(e){}
+
+/* ---------- floating hearts ---------- */
+var hs=["💗","💖","💕","🌸","✨","💞"],hb=$("#hearts");
+setInterval(function(){
+  var h=document.createElement("div");h.className="fh";h.textContent=hs[Math.random()*hs.length|0];
+  h.style.left=Math.random()*100+"%";h.style.fontSize=(14+Math.random()*20)+"px";
+  h.style.animationDuration=(7+Math.random()*7)+"s";hb.appendChild(h);
+  setTimeout(function(){h.remove()},15000);
+},1100);
+
+function toast(t){var e=$("#toast");e.textContent=t;e.classList.add("s");clearTimeout(toast.t);toast.t=setTimeout(function(){e.classList.remove("s")},2600)}
+
+/* ---------- tabs ---------- */
+document.querySelectorAll("nav button").forEach(function(b){
+  b.onclick=function(){
+    document.querySelectorAll("nav button,.tab").forEach(function(x){x.classList.remove("on")});
+    b.classList.add("on");$("#"+b.dataset.t).classList.add("on");vib(10);
+  }
+});
+function vib(n){try{navigator.vibrate&&navigator.vibrate(n)}catch(e){}}
+
+/* ---------- radio ---------- */
+var stations=[{n:"LOVE",f:"98.5",m:["أنت أحلى حاجة حصلتلي في الدنيا 💖", "كل يوم بحبك أكتر من اللي فات 🌹", "ضحكتك بتنوّر أيامي كلها ✨", "وجودك جنبي بيحوّل أي يوم عادي لعيد 🎀", "قلبي بيرتاح أول ما أسمع صوتك 💞", "أنتِ بيتي وأماني وكل حكايتي 🏡", "مهما الدنيا اتغيرت، إنتِ ثابتة في قلبي 💗", "بحبك بعدد نجوم السما 🌌", "إنتِ الحاجة الوحيدة اللي مش بزهق منها 🥰", "عينيكي فيها دنيا كاملة أنا تايه فيها بمزاجي 👀💕", "بدعي ربنا كل يوم يخلّيكي ليا 🤲💖", "كل حاجة حلوة في حياتي ليها اسمك 🌷", "لما بفكر في السعادة بلاقي وشك قدامي 😍", "صوتك أحلى نغمة سمعتها في عمري 🎶", "إنتِ المكان اللي بحس فيه إني في بيتي 🏠💞", "بحبك لدرجة إن الكلام بيخلص ومشاعري لأ 💌", "أجمل صدفة في حياتي إني قابلتك 🍀", "وجودك بس بيطمّني من غير ما تقولي حاجة 🤍", "إنتِ أول فكرة الصبح وآخر فكرة بالليل 🌙☀️", "قلبي اختارك وعمره ما ندم 💘", "كل ما أبصلك بحس إني أكتر واحد محظوظ 🍀💖", "حضنك أأمن مكان في الدنيا 🫂", "إنتِ مش بس حبيبتي، إنتِ صاحبتي وسندي وكل حاجة 🤝💗", "ابتسامتك بتنسّيني أي تعب 😊", "بحبك زي ما إنتِ، بكل تفاصيلك 🌸", "لو الحب كلمة، فاسمك هو معناها 💝", "كل لحظة معاكي بتتحفر في قلبي ⏳💞", "إنتِ الحلم اللي صحيت لقيته حقيقة 🌠", "اشتقتلك حتى وإنتِ جنبي 🥹", "أنتِ سبب كل ضحكة حلوة في أيامي 😄💖", "قلبي عنده عنوان واحد بس: إنتِ 📍💗", "بحبك بالعربي وبكل اللغات 🌍❤️", "خدي قلبي، هو أصلاً ليكي من زمان 🎁", "إنتِ الأمان اللي كنت بدوّر عليه 🛡️💕", "لو رجع بيا الزمن هختارك تاني ألف مرة ⏪💍", "بحبك يا أحلى حاجة في دنيتي 🌹"]},{n:"FUNNY",f:"101.1",m:["افتكر أول مرة اتكسفنا وضحكنا من غير سبب 😂", "السندوتشات اللي بنتخانق عليها وإحنا الاتنين بنحبها 🥪", "نظرتك لما بتقولي «أنا مش زعلانة» 😏", "رقصتنا الفاشلة اللي محدش شافها 💃🤣", "لما بنفضل نقول «لا أنت اقفل» ومحدش بيقفل 📞😅", "خناقتنا على الريموت ومحدش بيكسب 📺", "ضحكتك وإنتِ بتحاولي تبطلي ضحك 🤭", "كل مرة نقول هنتأخر مش هنتأخر… ونتأخر 🙈", "لما بنقول هنعمل رجيم وبعدها نطلب بيتزا 🍕😂", "لما بتقولي «خمس دقايق وجاية» وتبقى ساعة ⏰🤣", "لما بنتكلم في التليفون ساعات وبعدين نقول ماكنش عندنا كلام 📱😆", "وشك لما بتتفاجئي بحاجة، بيساوي الدنيا 😲", "لما بنقعد نختار فيلم ساعة وبعدين ننام 🎬😴", "لما بتقوليلي «تعالى أحكيلك حاجة صغيرة» وتطلع حكاية طويلة 🗣️😄", "خناقة الأكل لما الاتنين بيقولوا «أي حاجة» 🍽️😂", "لما بنحاول نبقى جادين ونضحك في نص الكلام 😹", "هزارنا اللي محدش بيفهمه غيرنا 🤫😆", "لما نغلط في اسم مكان ونفضل نضحك أسبوع 🗺️🤣", "لما بتقلديني وإنتِ مفكرة إني مش واخد بالي 🙃", "جدالنا على أحسن طعم آيس كريم 🍦😂", "لما بنبعت لبعض ستيكرز وإحنا جنب بعض 🤪", "لما بتزعلي مني ومش بتعرفي تكملي زعل أكتر من دقيقتين 😅💕", "لما بنعمل نفسنا طباخين ونحرق الأكل 🍳🔥😂", "لما بنقول «نص ساعة ونمشي» وبنقعد للصبح 🌅", "ردّك السريع اللي بيسكتني ويضحكني 😎", "لما نشوف حاجة بايخة ونضحك عليها أكتر من الحاجة الحلوة 🤭", "لما بتحاولي تعلميني رقصة وأنا رجلي بتتلخبط 🕺", "لما تقولي «أنا مش بحب الحلويات» وتخلصي الطبق لوحدك 🍰😂", "لما أحاول أفتكر ميعاد وأنسى الاتنين 🤦‍♂️", "لما بنتفق على مفاجأة وإنتِ اللي بتفضحي نفسك 🎁🤣", "لما بنخاف من فيلم رعب ونتخبى ورا بعض 👻😱", "لما بنتصور ومفيش صورة طالعة كويسة 📸😆", "لما بتبصيلي وأنا باكل وتقوليلي «سيبلي حته» 🍟", "لما بنسمع أغنية قديمة ونغنيها غلط بثقة 🎤😂", "لما أقولك نكتة وتضحكي عليّا مش على النكتة 😜", "لما بنحلم نبقى هادئين ونتحمس بعد دقيقة 🎢😄"]},{n:"DREAMS",f:"104.7",m:["يوم هنقعد في بيتنا الصغير ونضحك على الأيام دي 🏡", "هنسافر سوا ونشوف الدنيا بعيون بعض ✈️", "هنعمل مفاجآت صغيرة لبعض كل سنة 🎁", "هنكبر سوا ونفضل ماسكين إيدين بعض 🤝", "هيجي يوم نبص فيه لورا ونقول: كنا محظوظين 🌠", "حلمي إني أصحى كل يوم وأنتِ أول وش أشوفه ☀️", "هنزرع جنينة ورد كل وردة بذكرى 🌷", "وعد مني نفضل نحلم سوا لآخر العمر 💍", "نفسي نقعد على البحر ونتفرج على الغروب سوا 🌅", "هنعمل ركن صغير في البيت لكل ذكرياتنا 🖼️", "هنقضي كل عيد مع بعض ونعمل تقاليدنا الخاصة 🎆", "هنتعشى كل جمعة قدام فيلم ونطلب أكل ومعاه ضحك 🍿", "هنسافر لبلد محدش فينا زارها ونتوه فيها سوا 🗺️", "نفسي أمسك إيدك وإحنا شعرنا أبيض ونفتكر كل ده 👵👴💞", "هنكتب كل أحلامنا في كراس ونشطب واحد واحد ✅", "هعملك مفاجأة عيد ميلاد عمرك ما تتوقعيها 🎂", "هيبقى عندنا ركن للقهوة والكتب والدفا ☕📚", "هنتعلم حاجة جديدة سوا كل سنة 🎨", "هنركب عجل ونلف شوارع مدينة غريبة 🚲", "هنعمل رحلة شتا في بيت صغير على الجبل وسط التلج ❄️🏔️", "هبني معاكي حلم كبير بخطوات صغيرة 🧱💖", "هنربّي جنينة صغيرة وناكل من ثمرها 🍓", "نفسي نسمع المطر سوا من الشباك ونحن لابسين بطاطين 🌧️🧣", "هنفضل نحتفل بأصغر الإنجازات زي ما هي أكبر حاجة 🥳", "هنلاقي مكان نسميه «مكاننا» ونرجعله كل سنة 📍", "هنحتفظ بكل رسايلنا ونقراها وإحنا كبار 💌", "هنعمل ليلة كل شهر نفتكر فيها أول يوم لينا 🕯️", "عايز أشوفك مبسوطة في كل حلم بتحققيه 🌟", "هنكون سند لبعض في أصعب الأيام قبل أحلاها 🫶", "أحلى سفرية هي اللي إنتِ جنبي فيها 🧳💕", "هنجرب أكلات الدنيا كلها ونحكم سوا مين الأحلى 🍜🍣", "هنكتب حكايتنا ونخلي اللي بعدنا يقراها 📖", "هنعمل صورة سنوية لينا بنفس الوقفة ونقارنها 📷", "كل حلم ليكي هيبقى هدفي أنا كمان 🎯💗", "وعد إن الأيام الجاية أحلى من اللي فاتت 💫", "في الآخر هنبص لبعض ونقول: كل ده كان يستاهل ❤️"]}];
+var bags=[];
+function nextMsg(i){var b=bags[i];if(!b||!b.length){b=bags[i]=stations[i].m.map(function(_,k){return k});for(var k=b.length-1;k>0;k--){var j=Math.random()*(k+1)|0,t=b[k];b[k]=b[j];b[j]=t}}return stations[i].m[b.pop()]}
+var cur=0,on=false,idx=0,amp=3,ph=0,raf=0,timer=0,ctx=null;
+var cv=$("#wave"),g=cv.getContext("2d");
+function showMsg(){
+  var m=$("#msg"),L=stations[cur].m;m.classList.add("f");
+  setTimeout(function(){m.textContent=nextMsg(cur);m.classList.remove("f")},400);
+}
+function draw(){
+  var w=cv.width,h=cv.height;g.clearRect(0,0,w,h);
+  var cols=["#ff4f93","#ff9ec4","#ffd6e7"];
+  for(var k=0;k<3;k++){
+    g.beginPath();g.lineWidth=3-k*.7;g.strokeStyle=cols[k];g.shadowColor="#ff4f93";g.shadowBlur=10;
+    for(var x=0;x<=w;x+=4){
+      var env=Math.sin(x/w*Math.PI);
+      var y=h/2+Math.sin(x*.03+ph+k)*Math.sin(x*.011-ph*.7)*env*(on?amp*9:1.5)*(1+k*.15);
+      x?g.lineTo(x,y):g.moveTo(x,y);
+    }
+    g.stroke();
+  }
+  g.shadowBlur=0;ph+=on?.12:.02;raf=requestAnimationFrame(draw);
+}
+function setStation(i){
+  cur=i;document.querySelectorAll("#sts button").forEach(function(b,j){b.classList.toggle("on",j==i)});
+  $("#fq").textContent="FM "+stations[i].f;$("#stn").textContent=stations[i].n;
+  blip();vib(15);
+  if(on){showMsg();restart()}
+}
+function blip(){
+  try{ctx=ctx||new (window.AudioContext||window.webkitAudioContext)();
+    var o=ctx.createOscillator(),gn=ctx.createGain();o.type="sine";o.frequency.value=660+cur*140;
+    gn.gain.setValueAtTime(.06,ctx.currentTime);gn.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.25);
+    o.connect(gn);gn.connect(ctx.destination);o.start();o.stop(ctx.currentTime+.26)}catch(e){}
+}
+function restart(){clearInterval(timer);timer=setInterval(showMsg,5500)}
+$("#pw").onclick=function(){
+  on=!on;this.classList.toggle("off",!on);$("#onair").style.opacity=on?1:.3;vib(20);blip();
+  if(on){showMsg();restart()}else{clearInterval(timer);$("#msg").textContent="اضغط زرار التشغيل 💗"}
+};
+$("#sts").onclick=function(e){var b=e.target.closest("button");if(b)setStation(+b.dataset.i)};
+$("#lvl").oninput=function(){amp=+this.value};
+$(".screen").onclick=function(){if(on){showMsg();restart();vib(10)}};
+$("#onair").style.opacity=.3;
+draw();
+
+/* ---------- time capsule ---------- */
+var caps=store.get("capsules",[]);
+function pad(n){return n<10?"0"+n:""+n}
+function esc(s){var d=document.createElement("div");d.textContent=s;return d.innerHTML}
+function fmt(t){return new Date(t).toLocaleString("ar-EG",{dateStyle:"full",timeStyle:"short"})}
+function localISO(d){return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())+"T"+pad(d.getHours())+":"+pad(d.getMinutes())}
+var dt=$("#cdate");dt.min=localISO(new Date());dt.value=localISO(new Date(Date.now()+864e5));
+
+function render(){
+  var el=$("#list");
+  if(!caps.length){el.innerHTML='<div class="card empty"><span>🫧</span>لسه مفيش كبسولات...<br>اكتب أول رسالة وسيبها للزمن 💗</div>';return}
+  el.innerHTML=caps.map(function(c,i){
+    return '<div class="card cap" data-i="'+i+'"><h3><span>'+esc(c.title||"كبسولة بدون عنوان")+'</span><button data-del="'+i+'" aria-label="حذف">🗑️</button></h3>'+
+    '<div class="cd"><div><b data-k="d">00</b><small>يوم</small></div><div><b data-k="h">00</b><small>ساعة</small></div><div><b data-k="m">00</b><small>دقيقة</small></div><div><b data-k="s">00</b><small>ثانية</small></div></div>'+
+    '<div class="secret lock">'+esc(c.text)+'</div><span class="tag">🔒 تتفتح: '+fmt(c.at)+'</span></div>';
+  }).join("");
+  tick(true);
+}
+function tick(first){
+  document.querySelectorAll(".cap").forEach(function(el){
+    var c=caps[+el.dataset.i];if(!c)return;
+    var left=c.at-Date.now(),sc=el.querySelector(".secret"),tg=el.querySelector(".tag");
+    if(left<=0){
+      if(sc.classList.contains("lock")){
+        sc.classList.remove("lock");tg.classList.add("open");tg.textContent="🔓 اتفتحت! "+fmt(c.at);
+        if(!first||!c.seen){burst();toast("💌 كبسولة اتفتحت: "+(c.title||""));vib([60,40,60])}
+        c.seen=true;store.set("capsules",caps);
+      }
+      ["d","h","m","s"].forEach(function(k){el.querySelector('[data-k="'+k+'"]').textContent="00"});
+      return;
+    }
+    var s=Math.floor(left/1000),v={d:Math.floor(s/86400),h:Math.floor(s%86400/3600),m:Math.floor(s%3600/60),s:s%60};
+    for(var k in v)el.querySelector('[data-k="'+k+'"]').textContent=pad(v[k]);
+  });
+}
+function burst(){
+  for(var i=0;i<26;i++){(function(){
+    var h=document.createElement("div");h.className="fh";h.textContent=hs[Math.random()*hs.length|0];
+    h.style.left=Math.random()*100+"%";h.style.fontSize=(20+Math.random()*24)+"px";h.style.opacity=.9;
+    h.style.animationDuration=(3+Math.random()*3)+"s";hb.appendChild(h);setTimeout(function(){h.remove()},7000)})()}
+}
+$("#save").onclick=function(){
+  var t=$("#ctext").value.trim(),at=new Date(dt.value).getTime();
+  if(!t){toast("اكتب رسالتك الأول 💌");return}
+  if(!dt.value||isNaN(at)||at<=Date.now()){toast("اختار ميعاد في المستقبل ⏳");return}
+  caps.unshift({title:$("#ctitle").value.trim(),text:t,at:at,seen:false});store.set("capsules",caps);
+  $("#ctext").value="";$("#ctitle").value="";dt.min=localISO(new Date());render();vib(40);toast("اتقفلت الكبسولة بنجاح 🔒💖");
+};
+$("#list").onclick=function(e){
+  var b=e.target.closest("[data-del]");if(!b)return;
+  if(confirm("متأكد إنك عايز تمسح الكبسولة دي؟")){caps.splice(+b.dataset.del,1);store.set("capsules",caps);render()}
+};
+render();setInterval(function(){tick(false)},1000);
+document.addEventListener("visibilitychange",function(){if(!document.hidden)tick(false)});
+/* ---------- home widget ---------- */
+var app=$(".app"),sl=$("#sl"),dots=document.querySelectorAll(".dots i"),lastT=0;
+function openTab(id){app.classList.remove("home");document.querySelector('nav button[data-t="'+id+'"]').click()}
+$("#back").onclick=function(){app.classList.add("home");vib(10)};
+sl.querySelectorAll("[data-o]").forEach(function(d){d.onclick=function(){openTab(d.dataset.o)}});
+["touchstart","pointerdown","wheel"].forEach(function(e){sl.addEventListener(e,function(){lastT=Date.now()},{passive:true})});
+sl.addEventListener("scroll",function(){var i=Math.round(sl.scrollLeft/sl.clientWidth);dots.forEach(function(d,j){d.classList.toggle("on",j==i)})},{passive:true});
+setInterval(function(){
+  if(!app.classList.contains("home")||Date.now()-lastT<9000)return;
+  var i=Math.round(sl.scrollLeft/sl.clientWidth);sl.scrollTo({left:((i+1)%2)*sl.clientWidth,behavior:"smooth"});
+},6500);
+var wc=$("#wwave").getContext("2d"),wp=0;
+(function wd(){
+  wc.clearRect(0,0,400,120);wc.lineWidth=3;wc.strokeStyle="rgba(255,255,255,.92)";wc.shadowColor="#ff4f93";wc.shadowBlur=8;wc.beginPath();
+  for(var x=0;x<=400;x+=4){var y=60+Math.sin(x*.035+wp)*Math.sin(x*.012-wp*.6)*Math.sin(x/400*Math.PI)*34;x?wc.lineTo(x,y):wc.moveTo(x,y)}
+  wc.stroke();wp+=.07;requestAnimationFrame(wd);
+})();
+function wmsg(){
+  var si=Math.random()*stations.length|0,s=stations[si],m=$("#wmsg");$("#wfq").textContent="FM "+s.f+" · "+s.n;m.style.opacity=0;
+  setTimeout(function(){m.textContent=nextMsg(si);m.style.opacity=1},350);
+}
+setInterval(function(){if(app.classList.contains("home"))wmsg()},5000);
+function wtick(){
+  var now=Date.now(),up=caps.filter(function(c){return c.at>now}).sort(function(a,b){return a.at-b.at})[0],v={d:0,h:0,m:0,s:0},note;
+  if(up){var q=Math.floor((up.at-now)/1000);v={d:Math.floor(q/86400),h:Math.floor(q%86400/3600),m:Math.floor(q%3600/60),s:q%60};note="🔒 "+(up.title||"الكبسولة الجاية")}
+  else note=caps.length?"🔓 كل الكبسولات اتفتحت 🎉":"لسه مفيش كبسولات 🫧";
+  $("#wd").textContent=pad(v.d);$("#wh").textContent=pad(v.h);$("#wmn").textContent=pad(v.m);$("#ws").textContent=pad(v.s);$("#wnote").textContent=note;
+}
+wtick();setInterval(wtick,1000);
+})();
+</script>
+</body>
+</html>
